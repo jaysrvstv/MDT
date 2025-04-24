@@ -85,9 +85,7 @@ elif mode == "🔍 Memory Recall":
             memory_vecs = np.array([get_embedding(m) for m in memory])
             scores = cosine_similarity(query_vec, memory_vecs).flatten()
             top_index = np.argmax(scores)
-            st.info(f"🧠 Closest Memory Match:
-
-{memory[top_index]}")
+            st.info(f"🧠 Closest Memory Match:\n\n{memory[top_index]}")
         else:
             st.warning("No memories stored yet.")
 
