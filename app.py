@@ -23,9 +23,28 @@ if not os.path.exists(memory_file):
 # App UI
 st.set_page_config(page_title="MDT (My Digital Twin)", layout="centered")
 st.title("🧠 MDT (My Digital Twin) Assistant")
+
+# Load current data for dashboard summary
+if os.path.exists(memory_file):
+    df = pd.read_csv(memory_file)
+    total = len(df)
+    count_work = len(df[df["Type"].str.lower() == "work"])
+    count_personal = len(df[df["Type"].str.lower() == "personal"])
+    count_finance = len(df[df["Type"].str.lower() == "finance"])
+    count_research = len(df[df["Type"].str.lower() == "research"])
+
+    st.markdown("### 📊 Memory Summary")
+    col1, col2, col3, col4, col5 = st.columns(5)
+    col1.metric("🧠 Total", total)
+    col2.metric("👨‍💼 Work", count_work)
+    col3.metric("🏡 Personal", count_personal)
+    col4.metric("💰 Finance", count_finance)
+    col5.metric("📚 Research", count_research)
+    st.markdown("---")
+
 mode = st.sidebar.radio("Choose mode", ["🎙️ Voice Input", "🗒️ Task Entry", "🔍 Memory Recall", "🤖 Chat Assistant"])
 
-# Load memory
+# Reload memory
 df = pd.read_csv(memory_file)
 memory = df["Content"].tolist()
 
